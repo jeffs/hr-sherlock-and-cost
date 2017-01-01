@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
+#include <map>
 #include <vector>
 
 #ifndef DEBUG
@@ -27,6 +28,11 @@ struct node {
     }
 };
 
+bool operator<(node a, node b) {
+    return a.position < b.position
+        || (a.position == b.position && a.value < b.value);
+}
+
 template <class T>
 T read()
 {
@@ -36,20 +42,30 @@ T read()
     throw "expected value";
 }
 
-value_type from_node(node source, iterator end)
+value_type from_node(
+        node source,
+        iterator e,
+        std::map<node, value_type>& memo)
 {
-    auto from_edge = [source, end](node target) {
-        return source.cost(target) + from_node(target, end);
-    };
-    auto q = next(source.position);
-    return q == end ? 0 : std::max(from_edge({q, 1}), from_edge({q, *q}));
+    if (!memo.count(source)) {
+        auto from_edge = [source, e, &memo](node target) {
+            return source.cost(target) + from_node(target, e, memo);
+        };
+        auto q = next(source.position);
+        auto r = q == e ? 0 : std::max(from_edge({q, 1}), from_edge({q, *q}));
+        memo.emplace(source, r);
+    }
+    return memo[source];
 }
 
 value_type max_cost(array_type const& values)
 {
     return values.size() < 2 ? 0 : [&values] {
         iterator b = begin(values), e = end(values);
-        return std::max(from_node({b, 1}, e), from_node({b, *b}, e));
+        std::map<node, value_type> memo;
+        return std::max(
+                from_node({b, 1}, e, memo),
+                from_node({b, *b}, e, memo));
     }();
 }
 
