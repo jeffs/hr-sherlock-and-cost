@@ -81,7 +81,7 @@ value_type max_cost(array_type const& values)
 int main()
 {
     using namespace jeff;
-    for (int t = read<int>(); t--;) {
+    for (unsigned t = read<unsigned>(); t != 0; --t) {
         DUMP(t);
         array_type b(read<array_type::size_type>());
         std::generate(begin(b), end(b), read<value_type>);
