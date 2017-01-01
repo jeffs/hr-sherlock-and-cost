@@ -28,11 +28,6 @@ struct node {
     }
 };
 
-bool operator<(node a, node b) {
-    return a.position < b.position
-        || (a.position == b.position && a.value < b.value);
-}
-
 bool operator==(node a, node b) {
     return a.position == b.position && a.value == b.value;
 }
