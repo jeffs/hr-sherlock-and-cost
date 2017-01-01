@@ -17,8 +17,6 @@ using value_type = int;
 using array_type = std::vector<value_type>;
 using iterator = array_type::const_iterator;
 
-using std::next;
-
 struct node {
     iterator position;
     value_type value;
@@ -62,7 +60,7 @@ value_type from_node(
         auto from_edge = [source, e, &memo](node target) {
             return source.cost(target) + from_node(target, e, memo);
         };
-        auto q = next(source.position);
+        auto q = std::next(source.position);
         auto r = q == e ? 0 : std::max(from_edge({q, 1}), from_edge({q, *q}));
         memo.emplace(source, r);
     }
