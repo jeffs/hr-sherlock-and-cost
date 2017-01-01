@@ -30,17 +30,15 @@ bool operator==(node a, node b) {
     return a.position == b.position && a.value == b.value;
 }
 
-}
-namespace std {
-    template <>
-    struct hash<jeff::node> {
-        std::size_t operator()(jeff::node a) const {
-            return hash<jeff::value_type const*>{}(&*a.position)
-                ^ hash<jeff::value_type>{}(a.value);
-        }
-    };
-}
-namespace jeff {
+} namespace std {
+template <>
+struct hash<jeff::node> {
+    std::size_t operator()(jeff::node a) const {
+        return hash<jeff::value_type const*>{}(&*a.position)
+            ^ hash<jeff::value_type>{}(a.value);
+    }
+};
+} namespace jeff {
 
 template <class T>
 T read()
