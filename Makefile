@@ -1,6 +1,6 @@
-CPPFLAGS = -isystem $(HOME)/opt/fmt/fmt-3.0.0 -isystem /usr/local/include
+CPPFLAGS = -isystem $(HOME)/opt/fmt/fmt-3.0.0 -isystem /usr/local/include -DDEBUG
 CXXFLAGS = -std=c++1z -pedantic -Wall
-LDFLAGS = -L $(HOME)/opt/fmt/build/fmt -l fmt \
+LDFLAGS =
 
 .PHONY: default
 default: main
